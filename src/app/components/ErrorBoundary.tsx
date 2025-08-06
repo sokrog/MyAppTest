@@ -30,8 +30,6 @@ class ErrorBoundaryClass extends Component<Props, State> {
 
   handleReload = () => {
     this.setState({ hasError: false, error: null });
-    // Для RN можно использовать AppRegistry.runApplication, но чаще просто перерисовать дерево.
-    // Можно также добавить: if (globalThis?.location?.reload) globalThis.location.reload();
   };
 
   render() {
