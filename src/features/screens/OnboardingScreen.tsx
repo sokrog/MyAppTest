@@ -1,15 +1,17 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { finishOnboarding } from '../../store/slices/authSlice';
 
 const OnboardingScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Онбординг</Text>
-      <Button title="Завершить онбординг" onPress={() => dispatch(finishOnboarding())} />
+      <Text style={styles.text}>{t('onboarding.title')}</Text>
+      <Button title={t('onboarding.finish')} onPress={() => dispatch(finishOnboarding())} />
     </View>
   );
 };

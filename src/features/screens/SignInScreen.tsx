@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Button, StyleSheet, TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { signInAsync, restoreSessionAsync } from '../../store/thunks/authThunks';
 import { RootState } from '../../store';
 
 const SignInScreen: React.FC = () => {
   const dispatch = useDispatch();
   const error = useSelector((state: RootState) => state.auth.error);
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,10 +26,10 @@ const SignInScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Вход</Text>
+      <Text style={styles.title}>{t('signIn.title')}</Text>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder={t('signIn.email')}
         autoCapitalize="none"
         keyboardType="email-address"
         value={email}
@@ -36,7 +38,7 @@ const SignInScreen: React.FC = () => {
       />
       <TextInput
         style={styles.input}
-        placeholder="Пароль"
+        placeholder={t('signIn.password')}
         secureTextEntry
         value={password}
         onChangeText={setPassword}
@@ -44,12 +46,12 @@ const SignInScreen: React.FC = () => {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button
-        title={loading ? 'Проверка...' : 'Войти'}
+        title={loading ? t('signIn.loading') : t('signIn.signIn')}
         onPress={handleSignIn}
         disabled={loading}
       />
       <Text style={styles.hint}>
-        Используйте email: <Text style={{ fontWeight: 'bold' }}>test@test.com</Text> и пароль: <Text style={{ fontWeight: 'bold' }}>1234</Text>
+        {t('signIn.hint')} <Text style={{ fontWeight: 'bold' }}>test@test.com</Text> {t('signIn.and')} <Text style={{ fontWeight: 'bold' }}>1234</Text>
       </Text>
     </View>
   );

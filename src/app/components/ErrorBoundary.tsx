@@ -1,16 +1,18 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { ApplicationError, formatError, handleError } from '../../app/services/errorService';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   children: ReactNode;
+  t?: (key: string) => string;
 }
 interface State {
   hasError: boolean;
   error: ApplicationError | null;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+class ErrorBoundaryClass extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -33,10 +35,12 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   render() {
+    const { t } = this.props;
+    
     if (this.state.hasError) {
       return (
         <View style={styles.container}>
-          <Text style={styles.title}>Что-то пошло не так!</Text>
+          <Text style={styles.title}>{t?.('error.title') || 'Something went wrong!'}</Text>
           <Text style={styles.details}>{formatError(this.state.error)}</Text>
           {this.state.error?.details && (
             <Text style={styles.details}>
@@ -44,7 +48,7 @@ export class ErrorBoundary extends Component<Props, State> {
             </Text>
           )}
           <TouchableOpacity style={styles.button} onPress={this.handleReload}>
-            <Text style={styles.buttonText}>Обновить</Text>
+            <Text style={styles.buttonText}>{t?.('error.reload') || 'Reload'}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -52,6 +56,11 @@ export class ErrorBoundary extends Component<Props, State> {
     return this.props.children;
   }
 }
+
+export const ErrorBoundary: React.FC<Props> = (props) => {
+  const { t } = useTranslation();
+  return <ErrorBoundaryClass {...props} t={t} />;
+};
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' },

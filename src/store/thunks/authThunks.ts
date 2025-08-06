@@ -1,6 +1,7 @@
 import { AppDispatch } from '../index';
 import { signInRequest, signInSuccess, signInFailure, signOut } from '../slices/authSlice';
 import { securedStorage } from '../../app/services/securedStorage';
+import i18next from 'i18next';
 
 const FAKE_TOKEN = 'fake-token-abcdef';
 
@@ -12,7 +13,7 @@ export const signInAsync = (email: string, password: string) => async (dispatch:
     await securedStorage.setItem('email', email);
     dispatch(signInSuccess({ email, token: FAKE_TOKEN }));
   } else {
-    dispatch(signInFailure('Неверный email или пароль'));
+    dispatch(signInFailure(i18next.t('signIn.error')));
   }
 };
 

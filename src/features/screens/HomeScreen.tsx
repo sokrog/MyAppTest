@@ -1,14 +1,17 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { signOutAsync } from '../../store/thunks/authThunks';
 
 const HomeScreen: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Главная страница</Text>
-      <Button title="Выйти" onPress={() => dispatch<any>(signOutAsync())} />
+      <Text style={styles.text}>{t('home.title')}</Text>
+      <Button title={t('home.signOut')} onPress={() => dispatch<any>(signOutAsync())} />
     </View>
   );
 };
